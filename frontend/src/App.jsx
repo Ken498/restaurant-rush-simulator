@@ -5,6 +5,8 @@ import Charts from './components/Charts.jsx';
 
 const MENU_ITEMS = ['Burger', 'Pizza', 'Steak', 'Fries', 'Salad', 'Pasta', 'Sushi', 'Wings', 'Tacos', 'Soup'];
 
+const API = import.meta.env.VITE_API_URL || '';
+
 const DEFAULT_CONFIG = {
   customers: 50,
   ordersPerSec: 1,
@@ -83,7 +85,7 @@ export default function App() {
   useEffect(() => {
     const check = async () => {
       try {
-        const res = await fetch('/api/health');
+        const res = await fetch(`${API}/api/health`);
         setBackendOk(res.ok);
       } catch {
         setBackendOk(false);
@@ -98,7 +100,7 @@ export default function App() {
   const startPolling = useCallback(() => {
     pollRef.current = setInterval(async () => {
       try {
-        const res = await fetch('/api/metrics');
+        const res = await fetch(`${API}/api/metrics`);
         const data = await res.json();
         setMetrics(data);
       } catch {
@@ -114,7 +116,7 @@ export default function App() {
   const handleStart = useCallback(async () => {
     // Push config to backend
     try {
-      await fetch('/api/config', {
+      await fetch(`${API}/api/config`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -147,7 +149,7 @@ export default function App() {
 
       for (let i = 0; i < batchSize; i++) {
         const item = MENU_ITEMS[Math.floor(Math.random() * MENU_ITEMS.length)];
-        fetch('/api/order', {
+        fetch(`${API}/api/order`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ item }),
@@ -165,7 +167,7 @@ export default function App() {
 
   const handleReset = useCallback(async () => {
     try {
-      await fetch('/api/reset', { method: 'POST' });
+      await fetch(`${API}/api/reset`, { method: 'POST' });
       setMetrics(EMPTY_METRICS);
       setLog([]);
       pushLog('Metrics reset.', 'info');
@@ -212,7 +214,7 @@ export default function App() {
           display: 'flex', alignItems: 'center', gap: 8,
         }}>
           <span>⚠</span>
-          <span>Backend not reachable. Run: <code style={{ fontFamily: 'var(--font-mono)', background: '#1a1a1a', padding: '1px 6px', borderRadius: 3 }}>cd backend && npm install && npm start</code></span>
+          <span>Backend not reachable. Locally run: <code style={{ fontFamily: 'var(--font-mono)', background: '#1a1a1a', padding: '1px 6px', borderRadius: 3 }}>cd backend && npm install && npm start</code> — or check <code style={{ fontFamily: 'var(--font-mono)', background: '#1a1a1a', padding: '1px 6px', borderRadius: 3 }}>VITE_API_URL</code> in production.</span>
         </div>
       )}
 
