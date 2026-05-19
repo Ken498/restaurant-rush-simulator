@@ -4,6 +4,8 @@ A performance testing dashboard that simulates hundreds of concurrent customers 
 
 ![Dashboard Preview](https://img.shields.io/badge/stack-Node.js%20%2B%20React-blue) ![License](https://img.shields.io/badge/license-MIT-green)
 
+**🚀 Live Demo: [https://restaurant-rush-frontend.onrender.com](https://restaurant-rush-frontend.onrender.com)**
+
 ---
 
 ## What It Shows
