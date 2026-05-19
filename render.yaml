@@ -1,7 +1,7 @@
 services:
   - type: web
     name: restaurant-rush-backend
-    runtime: node
+    env: node
     rootDir: backend
     buildCommand: npm install
     startCommand: node server.js
@@ -14,11 +14,10 @@ services:
 
   - type: web
     name: restaurant-rush-frontend
-    runtime: static
+    env: static
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
-    plan: free
     envVars:
       - key: VITE_API_URL
         sync: false
